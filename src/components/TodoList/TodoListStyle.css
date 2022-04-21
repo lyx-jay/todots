@@ -1,0 +1,28 @@
+.container {
+  width: 500px;
+  height: fit-content;
+  background-color: pink;
+  margin: 0 auto;
+  padding: 20px 20px;
+  border-radius: 5px;
+}
+
+.add__wrapper {
+  display: flex;
+  margin: 10px 20px;
+  align-items: center;
+}
+
+.add__wrapper input {
+  flex: 2;
+  height: 30px;
+  outline: none;
+  border: 2px solid #806538;
+  border-radius: 5px;
+  text-indent: 4px;
+  /* border-color: #806538; */
+}
+
+.add__wrapper button {
+  height: 30px;
+}

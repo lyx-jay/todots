@@ -89,6 +89,7 @@ I hope this project is helpful for beginners in react and ts. If you are interes
 
 ### 函数组件 props 在 Ts 中的类型定义
 
+React.FC<>
 ### useState 在父子组件传值中的应用
 
 ### useRef 在 Ts 中问题

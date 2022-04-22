@@ -93,3 +93,7 @@ I hope this project is helpful for beginners in react and ts. If you are interes
 2. 函数组件在Typescript中的应用
 3. useState在父子组件传值的应用
 4. useRef在TS中的应用
+5. redux + hook（useSelector, useDispatch）
+
+
+当需要重构代码时，可以新建一个分支进行重构，完成后将其合并到base分支上，将新建分支删除。注意删除本地新建分支以及同步本地base分支代码

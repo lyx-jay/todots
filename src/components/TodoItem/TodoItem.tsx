@@ -1,6 +1,6 @@
 import { todoItem } from '../../types/types';
-import Check from '../Emoji/check';
 import { placeToString } from '../../utils/index';
+import { Check, emoji } from '../Emoji';
 import "./TodoItem.css";
 
 
@@ -17,7 +17,10 @@ function TodoItem({ id, text, done, place, itemClick }: todoItem) {
           )}
           <div className="todo__text">{text}</div>
         </div>
-        <div className="todo__place">{place1}</div>
+        <div className="place__wrapper">
+          {emoji(place1)}
+          <div className="todo__place">{place1}</div>
+        </div>
       </div>
     </li>
   );

@@ -48,19 +48,20 @@ function TodoList() {
           );
         })}
       </ul>
-      <button
-        onClick={() => setTodoArray(completeAll(todoArray))}
-        className={showCompleteAll ? "ative" : "deactive"}>
-        Complete All
-      </button>
+
       <div className="add__wrapper">
         <input type="text" ref={inputRef} />
         <button
+          className="add__button"
           onClick={() => {
             setTodoArray(addTodo(todoArray, inputRef.current!.value))
-          }
-          }>
+          }}>
           ADD
+        </button>
+        <button
+          onClick={() => setTodoArray(completeAll(todoArray))}
+          className={showCompleteAll ? "ative" : "deactive"}>
+          Complete All
         </button>
       </div>
     </div>

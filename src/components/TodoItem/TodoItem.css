@@ -15,31 +15,31 @@
   cursor: pointer;
 }
 
-.todo__place {
+.place__wrapper {
   flex: 1;
-  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.todo__place {
+  color: var(--fontColor);
+  margin-left: 10px;
 }
 
-.todo__checkbox,
-.checked {
+.todo__checkbox{
   width: 20px;
   height: 20px;
   margin-right: 10px;
 }
 
+.checked {
+  margin-right: 10px;
+}
+
 .todo__checkbox {
-  border: 2px solid #806538;
+  border: 2px solid var(--checkboxColor);
 }
 
-button {
-  margin: 0 20px;
-  padding: 3px 10px;
-  text-align: left;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button.deactive {
-  display: none;
+.todo__text {
+  color: var(--fontColor);
 }

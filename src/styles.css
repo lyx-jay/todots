@@ -1,10 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto+Condensed:wght@300;400;700&display=swap');
+
+:root {
+  --bgColor: #e76f51;
+  --fontColor: #faedcd;
+  --buttonBgColor: #2a9d8f;
+  --checkboxColor: #e9c46a;
+  --inputBorderColor: #2a9d8f;
+}
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
+body {
+  font-family: "Poppins";
+}
+
 li {
   list-style: none;
+}
+
+svg {
+  width: 20px;
+  height: 2px px;
 }
 

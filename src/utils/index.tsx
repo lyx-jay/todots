@@ -31,11 +31,11 @@ function completeAll(todos: readonly Todo[]): Todo[] {
 // transform place to string
 function placeToString(place: Place): string {
   if (place === "Home") {
-    return "):" + place;
+    return place;
   } else if (place === "Work") {
-    return "):" + place;
+    return place;
   } else {
-    return "):" + place.custom;
+    return place.custom;
   }
 }
 

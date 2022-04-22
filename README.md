@@ -4,6 +4,8 @@ It is the first time I use Ts and React to build a App, so I want to get familia
 
 I hope this project is helpful for beginners in react and ts. If you are interested in it, please click [Github](git@github.com:lyx-jay/todots.git)
 
+创建 React + Ts 项目: `npx create-react-app my-app --template typescript`
+
 ## Summarize
 
 ### Primary knowledge of TypeScript 

@@ -1,39 +1,22 @@
-import { useState, useRef } from "react";
-
+import { useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { isShowComplteAll } from '../../utils';
+import { TodoState } from '../../types/types';
+import { addAction, completeAction, toggleAction } from "../../store/actions";
 import TodoItem from "../TodoItem/TodoItem";
-import { toggleTodo, isShowComplteAll, completeAll, addTodo } from '../../utils';
-import { Todo } from '../../types/types';
 import "./TodoListStyle.css";
 
-let todos: Todo[] = [
-  { id: 0, text: "practice react", done: false, place: "Home" },
-  { id: 1, text: "learn redux", done: false, place: "Work" },
-  {
-    id: 2,
-    text: "practice react again",
-    done: false,
-    place: { custom: "Gym" }
-  },
-  {
-    id: 3,
-    text: "practice react again",
-    done: false,
-    place: { custom: "Library" }
-  }
-];
+
 
 function TodoList() {
-  const [todoArray, setTodoArray] = useState(todos);
+
+  const dispatch = useDispatch();
+  const { todoArray } = useSelector((state: TodoState) => ({
+    todoArray: state.todos
+  }))
+
   const inputRef = useRef<HTMLInputElement | null>(null);
   const showCompleteAll = isShowComplteAll(todoArray);
-
-  const handleItemClikc = (index: number) => {
-    setTodoArray([
-      ...todoArray.slice(0, index),
-      toggleTodo(todoArray[index]),
-      ...todoArray.slice(index + 1)
-    ]);
-  };
 
   return (
     <div className="container">
@@ -43,7 +26,7 @@ function TodoList() {
             <TodoItem
               {...todo}
               key={todo.id}
-              itemClick={(index: number) => handleItemClikc(index)}
+              itemClick={(index: number) => dispatch(toggleAction(index))}
             />
           );
         })}
@@ -53,13 +36,11 @@ function TodoList() {
         <input type="text" ref={inputRef} />
         <button
           className="add__button"
-          onClick={() => {
-            setTodoArray(addTodo(todoArray, inputRef.current!.value))
-          }}>
+          onClick={() => dispatch(addAction(inputRef.current!.value))}>
           ADD
         </button>
         <button
-          onClick={() => setTodoArray(completeAll(todoArray))}
+          onClick={() => dispatch(completeAction())}
           className={showCompleteAll ? "ative" : "deactive"}>
           Complete All
         </button>
@@ -67,5 +48,6 @@ function TodoList() {
     </div>
   );
 }
+
 
 export default TodoList;

@@ -1,6 +1,6 @@
-import { Todo, Place} from '../types/types'
+import { Todo, Place, TodoState} from '../types/types'
 
-function addTodo(todos: Todo[], content: string): Todo[] {
+function addTodo(todos: Todo[], content: string): TodoState{
   let todoArrayLength = todos.length;
   const newTodoArray = todos.slice().concat([
     {
@@ -9,7 +9,7 @@ function addTodo(todos: Todo[], content: string): Todo[] {
       done: false
     }
   ]);
-  return newTodoArray;
+  return {todos: newTodoArray};
 }
 
 function isShowComplteAll(todos: Todo[]): boolean {
@@ -24,8 +24,8 @@ function toggleTodo(todo: Todo): Todo {
 }
 
 // make all todo items to done
-function completeAll(todos: readonly Todo[]): Todo[] {
-  return todos.map((todo) => ({ ...todo, done: true }));
+function completeAll(todos: readonly Todo[]): TodoState {
+  return {todos: todos.map((todo) => ({ ...todo, done: true }))};
 }
 
 // transform place to string

@@ -87,16 +87,136 @@ I hope this project is helpful for beginners in react and ts. If you are interes
 
     用于合并已经存在的对象类型
 
-### 函数组件 props 在 Ts 中的类型定义
+### Functional components 在 Ts 中的类型定义
 
-React.FC<>
+关于函数组件在TS中的类型定义，通常有两种写法
+
+1. React.FC<>
+
+    ```TS
+    /* Avoid this: */
+    type BadProps = { text: string };
+    const BadComponent: FC<BadProps> = ({ text, children }) => (
+      <div>
+        <div>{text}</div>
+        {children}
+      </div>
+    );
+    ```
+
+2. normal version
+
+    ```ts
+    /* Do this instead: */
+    type GoodProps = { text: string; children?: React.ReactNode };
+    const GoodComponent = ({ text, children }: GoodProps) => (
+      <div>
+        <div>{text}</div>
+        {children}
+      </div>
+    );
+    ```
+
+不推荐使用第一种写法，其会造成以下问题:
+
+  1. children props were implicitly added
+  2. Generic Type was not supported on children
+
+具体可参考连接
+  * ['ADR006: Avoid React.FC and React.SFC'](https://backstage.io/docs/architecture-decisions/adrs-adr006)
+  * [TypeScript React.FC<Props> confusion](https://stackoverflow.com/questions/59988667/typescript-react-fcprops-confusion)
 ### useState 在父子组件传值中的应用
 
+在函数组件中，父子组件通信与类组件相同，均是通过 props 进行传递。需要注意的是，当子组件调用父组件方法时，需要在props的类型定义中也增加对应定义。
+
+useState 注意事项：
+  ```ts
+  function Home() {
+    const [names, setName] = useState(['kobe', 'james']);
+
+      function addFriend() {
+        names.push("nba");
+        console.log(names);
+        setNames(names);
+      }
+
+      // 将addFriend改为以下形式即可将数据正确渲染到视图上
+      function addFriend() {
+        const newNames = names.slice();
+        newNames.push('aaa');
+        setNames(newNames)
+      }
+
+    return (
+      <div>
+        <ul>
+          {names.map((item, index) => <li key={index}>{item}</li>)}
+        </ul>
+        <button onClick={addFriend}>添加好友</button>           // 1
+        <button onClick={() => addFriend()}>添加好友</button>   // 2
+      </div>
+    )
+  }
+  ```
+  对于这两种button触发方式，可以向names中添加数据，但是不会渲染到视图上。
+
+  原因在于，对于State的更新，需要比较新旧两个state是否相同。对于基本数据类型，直接比较即可；对于引用数据类型，会比较二者的内存地址，若内存地址相同，即使
+  该数据内部发生变化，也被视为是一样的
+  
+
 ### useRef 在 Ts 中问题
-2. 函数组件在Typescript中的应用
-3. useState在父子组件传值的应用
-4. useRef在TS中的应用
-5. redux + hook（useSelector, useDispatch）
 
+在使用TypeScript时，useRef的类型定义需要注意:
 
-当需要重构代码时，可以新建一个分支进行重构，完成后将其合并到base分支上，将新建分支删除。注意删除本地新建分支以及同步本地base分支代码
+```ts
+import "./styles.css";
+import { useRef, useState } from "react";
+
+export default function App() {
+  const [msg, setMsg] = useState("");
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  return (
+    <div className="App">
+      <h1>Hello CodeSandbox</h1>
+      <h2>{msg}</h2>
+      <input type="text" ref={inputRef} />
+      // 添加！断言，表明current一定不为null
+      <button onClick={() => setMsg(inputRef.current!.value)}>CLICK</button>
+    </div>
+  );
+}
+
+```
+
+### redux + hook（useSelector, useDispatch） 
+
+useSelector、useDispatch 是 react-redux 提供的hook，可以简化redux的编写
+
+useSelector的作用是将state映射到组件中：
+
+* 参数一：将state映射到需要的数据中；
+* 参数二：可以进行比较来决定是否组件重新渲染；
+
+```js
+function Profile(props) {
+  const {banners, recommends, counter} = useSelector(state => ({
+    banners: state.homeInfo.banners,
+    recommends: state.homeInfo.recommends
+  }));
+  ...
+}
+```
+
+useDispatch 可以直接获取dispatch函数，在组件中直接使用
+
+```js
+const dispatch = useDispatch()
+```
+
+### Refactor Code
+
+当需要重构代码时，可以新建一个分支进行重构，完成后将其合并到base分支上，将新建分支删除。
+
+注意删除本地新建分支以及同步本地base分支代码
+
